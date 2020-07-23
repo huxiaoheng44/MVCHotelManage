@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.mapper.CustomerMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.bean.Customer" >
+    <id column="IDcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="householdName" property="householdname" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="level" property="level" jdbcType="INTEGER" />
+    <result column="cost" property="cost" jdbcType="DOUBLE" />
+  </resultMap>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    *
+    from customer
+    where IDcard = #{idcard,jdbcType=VARCHAR}
+  </select>
+
+  <select id="getAllCustomer" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    *
+    from customer
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from customer
+    where IDcard = #{idcard,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.whut.bean.Customer" >
+    insert into customer (IDcard, householdName, phone,
+      level, cost)
+    values (#{idcard,jdbcType=VARCHAR}, #{householdname,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR},
+      #{level,jdbcType=INTEGER}, #{cost,jdbcType=DOUBLE})
+  </insert>
+  <insert id="insertSelective" parameterType="com.whut.bean.Customer" >
+    insert into customer
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="idcard != null" >
+        IDcard,
+      </if>
+      <if test="householdname != null" >
+        householdName,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="level != null" >
+        level,
+      </if>
+      <if test="cost != null" >
+        cost,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="householdname != null" >
+        #{householdname,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        #{level,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        #{cost,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.bean.Customer" >
+    update customer
+    <set >
+      <if test="householdname != null" >
+        householdName = #{householdname,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="level != null" >
+        level = #{level,jdbcType=INTEGER},
+      </if>
+      <if test="cost != null" >
+        cost = #{cost,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where IDcard = #{idcard,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whut.bean.Customer" >
+    update customer
+    set householdName = #{householdname,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      level = #{level,jdbcType=INTEGER},
+      cost = #{cost,jdbcType=DOUBLE}
+    where IDcard = #{idcard,jdbcType=VARCHAR}
+  </update>
+</mapper>

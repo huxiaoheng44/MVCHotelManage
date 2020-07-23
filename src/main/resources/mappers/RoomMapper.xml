@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.mapper.RoomMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.bean.Room" >
+    <id column="roomID" property="roomid" jdbcType="INTEGER" />
+    <result column="roomName" property="roomname" jdbcType="VARCHAR" />
+    <result column="state" property="state" jdbcType="INTEGER" />
+    <result column="type" property="type" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap type="com.whut.bean.Room" id="BaseResultMapAndType" extends="BaseResultMap">
+    <association property="roomtype" javaType="com.whut.bean.Roomtype">
+      <id column="type" property="type" jdbcType="INTEGER" />
+      <result column="bedNumber" property="bednumber" jdbcType="INTEGER" />
+      <result column="bedSize" property="bedsize" jdbcType="VARCHAR" />
+      <result column="bathtub" property="bathtub" jdbcType="INTEGER" />
+      <result column="breakfast" property="breakfast" jdbcType="INTEGER" />
+      <result column="roomSize" property="roomsize" jdbcType="DOUBLE" />
+      <result column="money" property="money" jdbcType="DOUBLE" />
+    </association>
+  </resultMap>
+
+<!-- <sql id="Base_Column_List" >-->
+<!--    roomID, roomName, money, state, type,bedNumber,bedSize,bathtub,breakfast,roomSize-->
+<!--  </sql>-->
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapAndType" parameterType="java.lang.Integer" >
+    select *
+    from room r, roomtype rt
+    where roomID = #{roomid,jdbcType=INTEGER} and r.type = rt.type
+  </select>
+
+
+  <select id="getAllRoom" resultMap="BaseResultMapAndType"  >
+    select *
+    from room r, roomtype rt
+    where r.type = rt.type
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from room
+    where roomID = #{roomid,jdbcType=INTEGER}
+  </delete>
+
+<!--  <insert id="insert" parameterType="com.whut.bean.Room" >-->
+<!--    insert into room (roomID, roomName, money, -->
+<!--      state, type,bedNumber,bedSize,bathtub,breakfast,roomSize)-->
+<!--    values (#{roomid,jdbcType=INTEGER}, #{roomname,jdbcType=VARCHAR}, #{money,jdbcType=DOUBLE}, -->
+<!--      #{state,jdbcType=INTEGER}, #{type,jdbcType=INTEGER},#{bedNumber,jdbcType=INTEGER},#{bedSize,jdbcType=DOUBLE},#{bathtub,jdbcType=INTEGER},#{breakfast,jdbcType=INTEGER},#{roomSize,jdbcType=DOUBLE})-->
+<!--  </insert>-->
+  <insert id="insert" parameterType="com.whut.bean.Room" >
+    insert into room (roomID, roomName,
+      state, type)
+    values (#{roomid,jdbcType=INTEGER}, #{roomname,jdbcType=VARCHAR},
+      #{state,jdbcType=INTEGER}, #{type,jdbcType=INTEGER})
+  </insert>
+
+  <insert id="insertRoomSelective" parameterType="com.whut.bean.Room" >
+    insert into room
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="roomid != null" >
+        roomID,
+      </if>
+      <if test="roomname != null" >
+        roomName,
+      </if>
+      <if test="state != null" >
+        state,
+      </if>
+      <if test="type != null" >
+        type,
+      </if>
+
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="roomid != null" >
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="roomname != null" >
+        #{roomname,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+
+    </trim>
+  </insert>
+
+  <insert id="insertRoomtypeselective" parameterType="com.whut.bean.Roomtype" >
+    insert into roomtype
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
+        type,
+      </if>
+      <if test="bedNumber != null" >
+        bednumber,
+      </if>
+      <if test="bedSize != null" >
+        bedsize,
+      </if>
+      <if test="bathtub != null" >
+        bathtub,
+      </if>
+      <if test="breakfast != null" >
+        breakfast,
+      </if>
+      <if test="roomSize != null" >
+        roomsize,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="type != null" >
+        #{type,jdbcType=INTEGER},
+      </if>
+      <if test="bedNumber != null" >
+        #{bedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bedSize != null" >
+        #{bedSize,jdbcType=VARCHAR},
+      </if>
+      <if test="bathtub != null" >
+        #{bathtub,jdbcType=INTEGER},
+      </if>
+      <if test="breakfast != null" >
+        #{breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="roomSize != null" >
+        #{roomSize,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.bean.Room" >
+    update room r
+    <set >
+      <if test="roomname != null" >
+        r.roomName = #{roomname,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        r.state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        r.type = #{type,jdbcType=INTEGER}
+      </if>
+    </set>
+    where roomID = #{roomid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateAndTypeByPrimaryKeySelective" parameterType="com.whut.bean.Room" >
+    update room r,roomtype,rt
+    <set >
+      <if test="roomname != null" >
+        r.roomName = #{roomname,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        r.state = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="type != null" >
+        r.type = #{type,jdbcType=INTEGER},rt.type = #{type,jdbcType=INTEGER},
+      </if>
+      <if test="bedNumber != null" >
+        rt.bednumber = #{bedNumber,jdbcType=INTEGER},
+      </if>
+      <if test="bedSize != null" >
+        rt.bedsize = #{bedSize,jdbcType=VARCHAR},
+      </if>
+      <if test="bathtub != null" >
+        rt.bathtub = #{bathtub,jdbcType=INTEGER},
+      </if>
+      <if test="breakfast != null" >
+        rt.breakfast = #{breakfast,jdbcType=INTEGER},
+      </if>
+      <if test="roomSize != null" >
+        rt.roomsize = #{roomSize,jdbcType=DOUBLE},
+      </if>
+      <if test="money != null" >
+        rt.money = #{money,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where roomID = #{roomid,jdbcType=INTEGER} and r.type=rt.type
+  </update>
+
+  <update id="updateAndTypeByPrimaryKey" parameterType="com.whut.bean.Room" >
+    update room r,roomtype rt
+    set r.roomName = #{roomname,jdbcType=VARCHAR},
+      r.state = #{state,jdbcType=INTEGER},
+      r.type = #{type,jdbcType=INTEGER},
+      rt.type = #{type,jdbcType=INTEGER},
+      rt.bednumber = #{bedNumber,jdbcType=INTEGER},
+      rt.bedsize = #{bedSize,jdbcType=VARCHAR},
+      rt.bathtub = #{bathtub,jdbcType=INTEGER},
+      rt.breakfast = #{breakfast,jdbcType=INTEGER},
+      rt.roomsize = #{roomSize,jdbcType=DOUBLE})
+      rt.money = #{money,jdbcType=DOUBLE},
+    where roomID = #{roomid,jdbcType=INTEGER} and r.type=rt.type
+  </update>
+</mapper>

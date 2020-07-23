@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.mapper.OrderMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.bean.Order" >
+    <id column="orderID" property="orderid" jdbcType="INTEGER" />
+    <result column="IDcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="startTime" property="starttime" jdbcType="DATE" />
+    <result column="endTime" property="endtime" jdbcType="DATE" />
+    <result column="money" property="money" jdbcType="DOUBLE" />
+    <result column="roomID" property="roomid" jdbcType="INTEGER" />
+    <result column="employeeID1" property="employeeid1" jdbcType="INTEGER" />
+    <result column="employeeID2" property="employeeid2" jdbcType="INTEGER" />
+  </resultMap>
+
+  <resultMap type="com.whut.bean.Order" id="BaseResultMapAndCustomer" extends="BaseResultMap">
+    <association property="customer" javaType="com.whut.bean.Customer">
+      <id column="IDcard" property="idcard" jdbcType="VARCHAR" />
+      <result column="householdName" property="householdname" jdbcType="VARCHAR" />
+      <result column="phone" property="phone" jdbcType="VARCHAR" />
+      <result column="level" property="level" jdbcType="INTEGER" />
+      <result column="cost" property="cost" jdbcType="DOUBLE" />
+    </association>
+
+      <association property="room" javaType="com.whut.bean.Room">
+          <id column="roomID" property="roomid" jdbcType="INTEGER" />
+          <result column="roomName" property="roomname" jdbcType="VARCHAR" />
+          <result column="state" property="state" jdbcType="INTEGER" />
+          <result column="type" property="type" jdbcType="INTEGER" />
+      </association>
+  </resultMap>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMapAndCustomer" parameterType="java.lang.Integer" >
+    select 
+    *
+    from `order` o, customer c, room r
+    where o.orderID = #{orderid,jdbcType=INTEGER} and o.IDcard = c.IDcard and o.roomID=r.roomID
+  </select>
+
+  <select id="selectOrderByRoomid" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select
+    *
+    from `order` o
+    where o.roomid = #{roomid,jdbcType=INTEGER} and o.employeeid2 is null
+  </select>
+
+  <select id="getAllOrder" resultMap="BaseResultMapAndCustomer"  >
+    select *
+    from `order` o, customer c,room r
+    where o.IDcard = c.IDcard and o.roomID=r.roomID
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from `order`
+    where orderID = #{orderid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.whut.bean.Order" >
+    insert into `order` (orderID, IDcard, startTime,
+      endTime, money, roomID, 
+      employeeID1, employeeID2)
+    values (#{orderid,jdbcType=INTEGER}, #{idcard,jdbcType=VARCHAR}, #{starttime,jdbcType=DATE}, 
+      #{endtime,jdbcType=DATE}, #{money,jdbcType=DOUBLE}, #{roomid,jdbcType=INTEGER}, 
+      #{employeeid1,jdbcType=INTEGER}, #{employeeid2,jdbcType=INTEGER})
+  </insert>
+
+
+  <insert id="insertSelective" parameterType="com.whut.bean.Order" >
+    insert into `order`
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        orderID,
+      </if>
+      <if test="idcard != null" >
+        IDcard,
+      </if>
+      <if test="starttime != null" >
+        startTime,
+      </if>
+      <if test="endtime != null" >
+        endTime,
+      </if>
+      <if test="money != null" >
+        money,
+      </if>
+      <if test="roomid != null" >
+        roomID,
+      </if>
+      <if test="employeeid1 != null" >
+        employeeID1,
+      </if>
+      <if test="employeeid2 != null" >
+        employeeID2,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orderid != null" >
+        #{orderid,jdbcType=INTEGER},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        #{starttime,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+        #{endtime,jdbcType=DATE},
+      </if>
+      <if test="money != null" >
+        #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="roomid != null" >
+        #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="employeeid1 != null" >
+        #{employeeid1,jdbcType=INTEGER},
+      </if>
+      <if test="employeeid2 != null" >
+        #{employeeid2,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.bean.Order" >
+    update `order` o
+    <set >
+      <if test="idcard != null" >
+        o.IDcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="starttime != null" >
+        o.startTime = #{starttime,jdbcType=DATE},
+      </if>
+      <if test="endtime != null" >
+        o.endTime = #{endtime,jdbcType=DATE},
+      </if>
+      <if test="money != null" >
+        o.money = #{money,jdbcType=DOUBLE},
+      </if>
+      <if test="roomid != null" >
+        o.roomID = #{roomid,jdbcType=INTEGER},
+      </if>
+      <if test="employeeid1 != null" >
+        o.employeeID1 = #{employeeid1,jdbcType=INTEGER},
+      </if>
+      <if test="employeeid2 != null" >
+        o.employeeID2 = #{employeeid2,jdbcType=INTEGER},
+      </if>
+    </set>
+    where orderID = #{orderid,jdbcType=INTEGER}
+  </update>
+
+  <update id="updateByPrimaryKey" parameterType="com.whut.bean.Order" >
+    update `order` o ,customer c
+    set o.IDcard = #{idcard,jdbcType=VARCHAR},c.IDcard = #{idcard,jdbcType=VARCHAR},
+      o.statTime = #{starttime,jdbcType=DATE},
+      o.endTime = #{endtime,jdbcType=DATE},
+      o.money = #{money,jdbcType=DOUBLE},
+      o.roomID = #{roomid,jdbcType=INTEGER},
+      o.employeeID1 = #{employeeid1,jdbcType=INTEGER},
+      o.employeeID2 = #{employeeid2,jdbcType=INTEGER},
+      c.householdName = #{householdname,jdbcType=VARCHAR},
+      c.phone = #{phone,jdbcType=VARCHAR},
+      c.level = #{level,jdbcType=INTEGER},
+      c.cost = #{cost,jdbcType=DOUBLE}
+    where orderID = #{orderid,jdbcType=INTEGER} and o.IDcard = c.IDcard
+  </update>
+
+<!--  <select id="getIncome"  statementType="CALLABLE">-->
+<!--        {call getIncome(#{income,mode=out,jdbcType=DOUBLE})}-->
+<!--  </select>-->
+<!--  <select id="getOutcome"  statementType="CALLABLE">-->
+<!--        {call getOutcome(#{Outcome,mode=out,jdbcType=DOUBLE})}-->
+<!--  </select>-->
+
+  <select id="getIncome" resultType="DOUBLE">
+    select sum(money) from `order` where MONTH(starttime) = MONTH(CURRENT_DATE );
+  </select>
+
+  <select id="getOutcome" resultType="DOUBLE">
+    select sum(income)+sum(bonus) from salary;
+  </select>
+
+
+</mapper>

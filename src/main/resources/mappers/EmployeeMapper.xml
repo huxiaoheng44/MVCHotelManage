@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.mapper.EmployeeMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.bean.Employee" >
+    <id column="employeeID" property="employeeid" jdbcType="INTEGER" />
+    <result column="userAccount" property="useraccount" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="realName" property="realname" jdbcType="VARCHAR" />
+    <result column="age" property="age" jdbcType="INTEGER" />
+    <result column="power" property="power" jdbcType="INTEGER" />
+    <result column="IDcard" property="idcard" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="photoUrl" property="photourl" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <resultMap id="BaseResultMapAndSalary" type="com.whut.bean.Employee" extends="BaseResultMap">
+    <association property="salary" javaType="com.whut.bean.Salary">
+      <id column="employeeID" property="employeeid" jdbcType="INTEGER" />
+      <result column="income" property="income" jdbcType="DOUBLE" />
+      <result column="bonus" property="bonus" jdbcType="DOUBLE" />
+    </association>
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    employeeID, userAccount, password, realName, age, power, IDcard, phone, photoUrl
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select *
+    from employee
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </select>
+
+  <select id="selectByPrimaryKeyAndSalary" resultMap="BaseResultMapAndSalary" parameterType="java.lang.Integer" >
+    select *
+    from employee e,salary s
+    where e.employeeID = #{employeeid,jdbcType=INTEGER} and e.employeeID = s.employeeID
+  </select>
+
+  <select id="getAllEmployeeAndSalary" resultMap="BaseResultMapAndSalary"  >
+    select *
+    from employee e, salary s
+    where e.employeeID= s.employeeID
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from employee
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </delete>
+  <insert id="insert" parameterType="com.whut.bean.Employee" >
+    insert into employee (employeeID, userAccount, password, 
+      realName, age, power, 
+      IDcard, phone, photoUrl
+      )
+    values (#{employeeid,jdbcType=INTEGER}, #{useraccount,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
+      #{realname,jdbcType=VARCHAR}, #{age,jdbcType=INTEGER}, #{power,jdbcType=INTEGER}, 
+      #{idcard,jdbcType=VARCHAR}, #{phone,jdbcType=VARCHAR}, #{photourl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" useGeneratedKeys="true" keyProperty="employeeid" parameterType="com.whut.bean.Employee" >
+    insert into employee
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        employeeID,
+      </if>
+      <if test="useraccount != null" >
+        userAccount,
+      </if>
+      <if test="password != null" >
+        password,
+      </if>
+      <if test="realname != null" >
+        realName,
+      </if>
+      <if test="age != null" >
+        age,
+      </if>
+      <if test="power != null" >
+        power,
+      </if>
+      <if test="idcard != null" >
+        IDcard,
+      </if>
+      <if test="phone != null" >
+        phone,
+      </if>
+      <if test="photourl != null" >
+        photoUrl,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=INTEGER},
+      </if>
+      <if test="useraccount != null" >
+        #{useraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        #{age,jdbcType=INTEGER},
+      </if>
+      <if test="power != null" >
+        #{power,jdbcType=INTEGER},
+      </if>
+      <if test="idcard != null" >
+        #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        #{photourl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.bean.Employee" >
+    update employee
+    <set >
+      <if test="useraccount != null" >
+        userAccount = #{useraccount,jdbcType=VARCHAR},
+      </if>
+      <if test="password != null" >
+        password = #{password,jdbcType=VARCHAR},
+      </if>
+      <if test="realname != null" >
+        realName = #{realname,jdbcType=VARCHAR},
+      </if>
+      <if test="age != null" >
+        age = #{age,jdbcType=INTEGER},
+      </if>
+      <if test="power != null" >
+        power = #{power,jdbcType=INTEGER},
+      </if>
+      <if test="idcard != null" >
+        IDcard = #{idcard,jdbcType=VARCHAR},
+      </if>
+      <if test="phone != null" >
+        phone = #{phone,jdbcType=VARCHAR},
+      </if>
+      <if test="photourl != null" >
+        photoUrl = #{photourl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whut.bean.Employee" >
+    update employee
+    set userAccount = #{useraccount,jdbcType=VARCHAR},
+      password = #{password,jdbcType=VARCHAR},
+      realName = #{realname,jdbcType=VARCHAR},
+      age = #{age,jdbcType=INTEGER},
+      power = #{power,jdbcType=INTEGER},
+      IDcard = #{idcard,jdbcType=VARCHAR},
+      phone = #{phone,jdbcType=VARCHAR},
+      photoUrl = #{photourl,jdbcType=VARCHAR}
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </update>
+
+  <select id="selectByAccount" resultMap="BaseResultMap"  parameterType="java.lang.String" >
+    select
+    *
+    from employee
+    where useraccount = #{useraccount,jdbcType=INTEGER}
+  </select>
+</mapper>

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.whut.mapper.SalaryMapper" >
+  <resultMap id="BaseResultMap" type="com.whut.bean.Salary" >
+    <id column="employeeID" property="employeeid" jdbcType="INTEGER" />
+    <result column="income" property="income" jdbcType="DOUBLE" />
+    <result column="bonus" property="bonus" jdbcType="DOUBLE" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    employeeID, income, bonus
+  </sql>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from salary
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </select>
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from salary
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </delete>
+
+  <insert id="insert" parameterType="com.whut.bean.Salary" >
+    insert into salary (employeeID, income, bonus
+      )
+    values (#{employeeid,jdbcType=INTEGER}, #{income,jdbcType=DOUBLE}, #{bonus,jdbcType=DOUBLE}
+      )
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.whut.bean.Salary" >
+    insert into salary
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        employeeID,
+      </if>
+      <if test="income != null" >
+        income,
+      </if>
+      <if test="bonus != null" >
+        bonus,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="employeeid != null" >
+        #{employeeid,jdbcType=INTEGER},
+      </if>
+      <if test="income != null" >
+        #{income,jdbcType=DOUBLE},
+      </if>
+      <if test="bonus != null" >
+        #{bonus,jdbcType=DOUBLE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.whut.bean.Salary" >
+    update salary
+    <set >
+      <if test="income != null" >
+        income = #{income,jdbcType=DOUBLE},
+      </if>
+      <if test="bonus != null" >
+        bonus = #{bonus,jdbcType=DOUBLE},
+      </if>
+    </set>
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.whut.bean.Salary" >
+    update salary
+    set income = #{income,jdbcType=DOUBLE},
+      bonus = #{bonus,jdbcType=DOUBLE}
+    where employeeID = #{employeeid,jdbcType=INTEGER}
+  </update>
+</mapper>
