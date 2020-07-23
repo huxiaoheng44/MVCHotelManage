@@ -3,6 +3,7 @@ package com.whut.controller;
 
 import com.whut.bean.Customer;
 import com.whut.service.CustomerService;
+import com.whut.until.GsonUtil;
 import com.whut.until.State;
 import com.whut.until.StateSignal;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,8 +21,8 @@ public class CustomerController {
     @Resource
     CustomerService customerService;
 
-    @RequestMapping("/getCustomers.do")
-    public Map getCustomers(@RequestParam int pageNum, @RequestParam int pageSize) {
+    @RequestMapping(value="/getCustomers.do",produces = "text/html;charset=UTF-8")
+    public String getCustomers(@RequestParam int pageNum, @RequestParam int pageSize) {
         List<Customer> customerList = customerService.getAllCustomer(pageNum,pageSize);
         StateSignal signal = new StateSignal();
         if(customerList!=null){
@@ -32,11 +33,11 @@ public class CustomerController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
-    @RequestMapping("/updateCustomer.do")
-    public Map updateCustomer(@RequestBody Customer customer){
+    @RequestMapping(value="/updateCustomer.do",produces = "text/html;charset=UTF-8")
+    public String updateCustomer(@RequestBody Customer customer){
         int state = customerService.updateByPrimaryKeySelective(customer);
         StateSignal signal = new StateSignal();
         if(state==1){
@@ -46,7 +47,7 @@ public class CustomerController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
 }

@@ -2,6 +2,7 @@ package com.whut.controller;
 
 import com.whut.bean.Order;
 import com.whut.service.OrderService;
+import com.whut.until.GsonUtil;
 import com.whut.until.State;
 import com.whut.until.StateSignal;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,8 +20,8 @@ public class OrderController {
     @Resource
     OrderService orderService;
 
-    @RequestMapping("/getOrders.do")
-    public Map selectOrder(@RequestParam int pageNum, @RequestParam int pageSize) {
+    @RequestMapping(value="/getOrders.do",produces = "text/html;charset=UTF-8")
+    public String selectOrder(@RequestParam int pageNum, @RequestParam int pageSize) {
         List<Order> orders = orderService.getAllOrder(pageNum,pageSize);
         StateSignal signal = new StateSignal();
         if(orders!=null){
@@ -31,11 +32,11 @@ public class OrderController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
-    @RequestMapping("/checkIn.do")
-    public Map checkIn(@RequestBody Order order) {
+    @RequestMapping(value="/checkIn.do",produces = "text/html;charset=UTF-8")
+    public String checkIn(@RequestBody Order order) {
         int state = orderService.checkIn(order);
         StateSignal signal = new StateSignal();
         if(state==1){
@@ -45,11 +46,11 @@ public class OrderController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
-    @RequestMapping("/deleteOrder")
-    public Map deleteOrder(@RequestParam int orderid){
+    @RequestMapping(value="/deleteOrder",produces = "text/html;charset=UTF-8")
+    public String deleteOrder(@RequestParam int orderid){
         StateSignal signal = new StateSignal();
         int state = orderService.deleteByPrimaryKey(orderid);
         if(state==1){
@@ -59,11 +60,11 @@ public class OrderController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
-    @RequestMapping("/checkOut.do")
-    public Map checkOut(@RequestParam int roomid) {
+    @RequestMapping(value="/checkOut.do",produces = "text/html;charset=UTF-8")
+    public String checkOut(@RequestParam int roomid) {
         StateSignal signal = new StateSignal();
         int state = orderService.checkOut(roomid);
         if(state==1){
@@ -73,11 +74,11 @@ public class OrderController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
-    @RequestMapping("/cleanRoom.do")
-    public Map cleanRoom(@RequestParam int roomid, @RequestParam int employeeid) {
+    @RequestMapping(value="/cleanRoom.do",produces = "text/html;charset=UTF-8")
+    public String cleanRoom(@RequestParam int roomid, @RequestParam int employeeid) {
         StateSignal signal = new StateSignal();
         int state = orderService.cleanRoom(roomid,employeeid);
         if(state==1){
@@ -87,12 +88,12 @@ public class OrderController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
 
-    @RequestMapping("/getMoney.do")
-    public Map getMoney() {
+    @RequestMapping(value="/getMoney.do",produces = "text/html;charset=UTF-8")
+    public String getMoney() {
         StateSignal signal = new StateSignal();
         double income =0;
         income = orderService.getIncome();
@@ -106,6 +107,6 @@ public class OrderController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return  signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 }

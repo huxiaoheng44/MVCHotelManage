@@ -3,6 +3,7 @@ package com.whut.controller;
 import com.whut.bean.Employee;
 import com.whut.service.EmployeeService;
 import com.whut.until.FileUtil;
+import com.whut.until.GsonUtil;
 import com.whut.until.State;
 import com.whut.until.StateSignal;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,8 @@ public class FileController {
     @Autowired
     EmployeeService employeeService;
 
-    @RequestMapping("/upFilePhoto.do")
-    public Map upFilePhoto(@RequestParam MultipartFile file, @RequestParam int employeeid){
+    @RequestMapping(value="/upFilePhoto.do",produces = "text/html;charset=UTF-8")
+    public String upFilePhoto(@RequestParam MultipartFile file, @RequestParam int employeeid){
         String fileName = UUID.randomUUID().toString()+file.getOriginalFilename();
 
         String filePath = ".\\src\\main\\resources\\static\\File\\";
@@ -45,7 +46,7 @@ public class FileController {
             signal.put(State.ErrorCode);
             signal.put(State.ErrorMessage);
         }
-        return signal.getResult();
+        return GsonUtil.toJson(signal.getResult());
     }
 
 

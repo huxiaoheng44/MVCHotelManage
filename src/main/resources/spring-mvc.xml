@@ -45,4 +45,8 @@
     <mvc:resources mapping="/js/**" location="/js/**"/>
     <mvc:resources mapping="/pages/**" location="/pages/**"/>
 
+    <!-- 启动Springmvc注解驱动 -->
+
+
+
 </beans>
