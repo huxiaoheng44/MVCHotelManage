@@ -38,10 +38,14 @@ public class RoomController {
 
 
     @RequestMapping(value="/addRoom.do",produces = "text/html;charset=UTF-8")
-    public String addRoom(@RequestBody Room room){
+    public String addRoom(@RequestParam String roomname,@RequestParam Integer type,@RequestParam Integer state){
         StateSignal signal = new StateSignal();
-        int state = roomService.insertRoomSelective(room);
-        if(state==1){
+        Room room = new Room();
+        room.setRoomname(roomname);
+        room.setType(type);
+        room.setState(state);
+        int state2 = roomService.insertRoomSelective(room);
+        if(state2==1){
             signal.put(State.SuccessCode);
             signal.put(State.SuccessMessage);
         }else {
@@ -66,10 +70,14 @@ public class RoomController {
     }
 
     @RequestMapping(value="/updateRoom.do",produces = "text/html;charset=UTF-8")
-    public String updateRoom(@RequestBody Room room){
+    public String updateRoom(@RequestParam String roomname,@RequestParam Integer type,@RequestParam Integer state){
         StateSignal signal = new StateSignal();
-        int state = roomService.updateByPrimaryKeySelective(room);
-        if(state == 1){
+        Room room = new Room();
+        room.setRoomname(roomname);
+        room.setType(type);
+        room.setState(state);
+        int state2 = roomService.updateByPrimaryKeySelective(room);
+        if(state2 == 1){
             signal.put(State.SuccessCode);
             signal.put(State.SuccessMessage);
         }else {

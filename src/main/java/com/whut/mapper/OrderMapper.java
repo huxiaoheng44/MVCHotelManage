@@ -4,6 +4,7 @@ package com.whut.mapper;
 import com.whut.bean.Order;
 
 import java.util.List;
+import java.util.zip.DeflaterOutputStream;
 
 public interface OrderMapper {
     int deleteByPrimaryKey(Integer orderid);
@@ -21,9 +22,9 @@ public interface OrderMapper {
 //    int getIncome(Double income);
 //
 //    int getOutcome(Double outcome);
-    double getIncome();
+    Double getIncome();
 
-    double getOutcome();
+    Double getOutcome();
 
     int updateByPrimaryKeySelective(Order record);
 

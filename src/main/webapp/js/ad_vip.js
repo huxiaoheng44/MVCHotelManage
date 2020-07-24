@@ -115,8 +115,11 @@ function setCustomer() {
         type:"POST",
         url:"../customer/updateCustomer.do",
         dataType:"JSON",
-        contentType: "application/json;charset=utf-8",
-        data:JSON.stringify(customer),
+        data:{
+            idcard: customer.idcard,
+            householdname: customer.householdname,
+            phone: customer.phone
+        },
         success:function(data){
             if(data.code==0){
                 alert("修改成功");

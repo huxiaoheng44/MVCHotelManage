@@ -1,6 +1,8 @@
 package com.whut.controller;
 
+import com.whut.bean.Customer;
 import com.whut.bean.Order;
+import com.whut.bean.Room;
 import com.whut.service.OrderService;
 import com.whut.until.GsonUtil;
 import com.whut.until.State;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -36,7 +39,23 @@ public class OrderController {
     }
 
     @RequestMapping(value="/checkIn.do",produces = "text/html;charset=UTF-8")
-    public String checkIn(@RequestBody Order order) {
+    public String checkIn(@RequestParam Integer roomid, @RequestParam Integer employeeid1,
+                          @RequestParam String idcard, @RequestParam Integer type,
+                          @RequestParam Date starttime,@RequestParam Date endtime,
+                          @RequestParam String householdname, @RequestParam String  phone){
+        Order order = new Order();
+        Room room = new Room();
+        Customer customer = new Customer();
+        room.setType(type);
+        room.setRoomid(roomid);
+        customer.setIdcard(idcard);
+        customer.setHouseholdname(householdname);
+        customer.setPhone(phone);
+        order.setEmployeeid1(employeeid1);
+        order.setStarttime(starttime);
+        order.setEndtime(endtime);
+        order.setRoom(room);
+        order.setCustomer(customer);
         int state = orderService.checkIn(order);
         StateSignal signal = new StateSignal();
         if(state==1){
@@ -95,10 +114,10 @@ public class OrderController {
     @RequestMapping(value="/getMoney.do",produces = "text/html;charset=UTF-8")
     public String getMoney() {
         StateSignal signal = new StateSignal();
-        double income =0;
+        double income =0.0,outcome =0.0;
         income = orderService.getIncome();
-        double outcome = orderService.getOutcome();
-        if(income!=0){
+        outcome = orderService.getOutcome();
+        if(income!=-1){
             signal.put(State.SuccessCode);
             signal.put(State.SuccessMessage);
             signal.put("income",income);

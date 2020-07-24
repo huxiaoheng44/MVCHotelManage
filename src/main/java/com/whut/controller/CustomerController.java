@@ -37,7 +37,11 @@ public class CustomerController {
     }
 
     @RequestMapping(value="/updateCustomer.do",produces = "text/html;charset=UTF-8")
-    public String updateCustomer(@RequestBody Customer customer){
+    public String updateCustomer(@RequestParam String idcard,@RequestParam String householdname,@RequestParam String phone){
+        Customer customer = new Customer();
+        customer.setIdcard(idcard);
+        customer.setHouseholdname(householdname);
+        customer.setPhone(phone);
         int state = customerService.updateByPrimaryKeySelective(customer);
         StateSignal signal = new StateSignal();
         if(state==1){

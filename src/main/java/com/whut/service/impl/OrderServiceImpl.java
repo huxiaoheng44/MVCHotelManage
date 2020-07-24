@@ -64,19 +64,23 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public double getIncome() {
-//        Double d=0.0;
-//        orderMapper.getIncome(d);
-//        return d;
-        return orderMapper.getIncome();
+    public Double getIncome() {
+        Double d=0.0;
+        d = orderMapper.getIncome();
+        if(d==null){
+            return 0.0;
+        }
+        return d;
     }
 
     @Override
-    public double getOutcome() {
-//        Double d=0.0;
-//        orderMapper.getOutcome(d);
-//        return d;
-        return orderMapper.getOutcome();
+    public Double getOutcome() {
+        Double d=0.0;
+        d = orderMapper.getOutcome();
+        if(d==null){
+            return 0.0;
+        }
+        return d;
     }
 
     @Override

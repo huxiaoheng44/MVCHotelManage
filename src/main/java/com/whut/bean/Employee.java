@@ -37,6 +37,45 @@ public class Employee {
                 '}';
     }
 
+    public Employee() {
+    }
+
+    public Employee(Integer employeeid, String useraccount, String password, String realname, Integer age, Integer power, String idcard, String phone, String photourl, Salary salary) {
+        this.employeeid = employeeid;
+        if(useraccount.equals("")){
+            this.useraccount=null;
+        }else {
+            this.useraccount = useraccount;
+        }
+        if(password.equals("")){
+            this.password=null;
+        }else {
+            this.password = password;
+        }
+        if(realname.equals("")){
+            this.realname=null;
+        }else {
+            this.realname = realname;
+        }
+        this.age = age;
+        this.power = power;
+        if(idcard.equals("")){
+            this.idcard=null;
+        }else {
+            this.idcard = idcard;
+        }
+        if(phone.equals("")){
+            this.phone=null;
+        }else {
+            this.phone = phone;
+        }
+        if(photourl.equals("")){
+            this.photourl=null;
+        }else {
+            this.photourl = photourl;
+        }
+    }
+
     public Salary getSalary() {
         return salary;
     }

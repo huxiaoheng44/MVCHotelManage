@@ -4,6 +4,7 @@ package com.whut.service;
 import com.whut.bean.Order;
 
 import java.util.List;
+import java.util.zip.DeflaterOutputStream;
 
 public interface OrderService {
     int deleteByPrimaryKey(Integer orderid);
@@ -20,9 +21,9 @@ public interface OrderService {
 
     int updateByPrimaryKey(Order record);
 
-    double getIncome();
+    Double getIncome();
 
-    double getOutcome();
+    Double getOutcome();
 
     int checkIn(Order order);
 

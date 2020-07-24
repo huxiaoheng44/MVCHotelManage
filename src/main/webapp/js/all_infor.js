@@ -129,18 +129,17 @@ function alterInfo(){
 			type:"POST",
 			url:"../employee/updateSelfInfo.do",
 			dataType:"JSON",
-			contentType: "application/json;charset=utf-8",
-			data:JSON.stringify(employee),
-			// data:{
-			// 	"employeeid":employeeid,
-			// 	"password":info.password,
-			// 	"realname":name,
-			// 	"age":age,
-			// 	"power":power,
-			// 	"idcard":info.idcard,
-			// 	"phone":phone
-			//
-			// },
+			data:{
+				"employeeid":employeeid,
+				"useraccount":null,
+				"password":null,
+				"realname":name,
+				"age":age,
+				"power":null,
+				"idcard":null,
+				"phone":phone,
+				"photourl":null
+			},
 			success:function(data){
 				if(data.code==0){
 					alert("修改成功");
@@ -176,8 +175,17 @@ function alterPwd(){
 			type:"POST",
 			url:"../employee/updateSelfInfo.do",
 			dataType:"JSON",
-			contentType: "application/json;charset=utf-8",
-			data:JSON.stringify(employee),
+			data:{
+				"employeeid":employeeid,
+				"useraccount":null,
+				"password":renewPwd,
+				"realname":null,
+				"age":null,
+				"power":null,
+				"idcard":null,
+				"phone":null,
+				"photourl":null
+			},
 			success:function(data){
 				if(data.code==0){
 					alert("修改成功");

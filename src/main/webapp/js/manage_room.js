@@ -227,8 +227,11 @@ function setRoomajax( ){
 		type:"POST",
 		url:"../room/updateRoom.do",
 		dataType:"JSON",
-		contentType: "application/json;charset=utf-8",
-		data:room,
+		data: {
+			roomname:$("#inputLocal").val(),
+			type: $("#inputType").val(),
+			state:"0"
+		},
 		success:function(data){
 			if(data.code==0){
 				alert("修改成功");
@@ -330,8 +333,11 @@ function addRoom(){
 			type:"POST",
 			url:"../room/addRoom.do",
 			dataType:"JSON",
-			contentType: "application/json;charset=utf-8",
-			data:room,
+			data: {
+				roomname:$("#inputLocal").val(),
+				type: $("#inputType").val(),
+				state:0
+			},
 				// "roomname":$("#inputLocal").val(),
 				// "money":$("#inputPrice").val(),
 				// "state":"0",
@@ -382,8 +388,15 @@ function newOrder(event) {
 			type:"POST",
 			url:"../order/checkIn.do",
 			dataType:"JSON",
-			contentType: "application/json;charset=utf-8",
-			data:order,
+			data: {
+				roomid:$("#newOrderBtn").attr("data-roomid"),
+				employeeid1:employeeid,
+				idcard:$("#inputidcard").val(),
+				type: $("#inputType").val(),
+				starttime:$("#dateStart").val(),
+				endtime:$("#dateEnd").val(),
+				customer:customer
+			},
 			// "roomname":$("#inputLocal").val(),
 			// "money":$("#inputPrice").val(),
 			// "state":"0",

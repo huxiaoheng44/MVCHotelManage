@@ -177,8 +177,17 @@ function setPosition(event,alter){
 		type:"POST",
 		url:"../employee/updateSelfInfo.do",
 		dataType:"JSON",
-		contentType: "application/json;charset=utf-8",
-		data:JSON.stringify(employee),
+		data:{
+			"employeeid":employeeid,
+			"useraccount":null,
+			"password":alter,
+			"realname":null,
+			"age":null,
+			"power":null,
+			"idcard":null,
+			"phone":null,
+			"photourl":null,
+		},
 		success:function(data){
 			if(data.code==0){
 				alert("修改成功");
@@ -211,8 +220,17 @@ function setPwd(event){
 		type:"POST",
 		url:"../employee/updateSelfInfo.do",
 		dataType:"JSON",
-		contentType: "application/json;charset=utf-8",
-		data:JSON.stringify(employee),
+		data:{
+			"employeeid":employeeid,
+			"useraccount":null,
+			"password":info.password,
+			"realname":null,
+			"age":null,
+			"power":null,
+			"idcard":null,
+			"phone":null,
+			"photourl":null
+		},
 		success:function(data){
 			if(data.code==0){
 				alert("修改成功");
@@ -267,8 +285,17 @@ function addEmployee(event){
 		type:"POST",
 		url:"../employee/addEmployee.do",
 		dataType:"JSON",
-		data:JSON.stringify(employee),
-		contentType: "application/json;charset=utf-8",
+		data:{
+			"employeeid":null,
+			"useraccount":employee.useraccount,
+			"password":employee.password,
+			"realname":employee.realname,
+			"age":employee.age,
+			"power":employee.power,
+			"idcard":employee.idcard,
+			"phone":employee.power,
+			"photourl":null,
+		},
 		success:function(data){
 			if(data.code==0){
 				alert("添加成功");

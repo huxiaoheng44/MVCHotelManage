@@ -3,6 +3,7 @@ package com.whut.controller;
 
 import com.google.gson.Gson;
 import com.whut.bean.Employee;
+import com.whut.bean.Salary;
 import com.whut.service.EmployeeService;
 import com.whut.until.GsonUtil;
 import com.whut.until.State;
@@ -69,8 +70,14 @@ public class EmployeeController {
     }
 
     @RequestMapping(value="updateSelfInfo.do",produces = "text/html;charset=UTF-8")
-    public String updateSelfInfo(@RequestBody Employee employee){
+    public String updateSelfInfo(@RequestParam Integer employeeid,@RequestParam String useraccount,
+                                 @RequestParam String password,@RequestParam String realname,
+                                 @RequestParam Integer age,@RequestParam Integer power,
+                                 @RequestParam String idcard,@RequestParam String phone,
+                                 @RequestParam String photourl){
         StateSignal signal = new StateSignal();
+        Employee employee = new Employee(employeeid, useraccount, password, realname, age, power, idcard, phone, photourl,null);
+        System.out.println(employee);
         int state = employeeService.updateByPrimaryKeySelective(employee);
         if(state==1){
             signal.put(State.SuccessCode);
@@ -84,8 +91,13 @@ public class EmployeeController {
     }
 
     @RequestMapping(value="addEmployee.do",produces = "text/html;charset=UTF-8")
-    public String addEmployee(@RequestBody Employee employee){
+    public String addEmployee(@RequestParam Integer employeeid,@RequestParam String useraccount,
+                              @RequestParam String password,@RequestParam String realname,
+                              @RequestParam Integer age,@RequestParam Integer power,
+                              @RequestParam String idcard,@RequestParam String phone,
+                              @RequestParam String photourl,@RequestParam Salary salary){
         StateSignal signal = new StateSignal();
+        Employee employee = new Employee(employeeid, useraccount, password, realname, age, power, idcard, phone, photourl,salary);
         int state = employeeService.insertSelective(employee);
         if(state==1){
             signal.put(State.SuccessCode);
