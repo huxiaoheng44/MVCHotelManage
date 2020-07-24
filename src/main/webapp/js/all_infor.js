@@ -12,8 +12,8 @@ var power=$.getData('power');
 
 
 $(document).ready(function(){
-	var w=$("#userpic").width();
-  	$("#userpic").height(w);
+	// var w=$("#userpic").width();
+  	// $("#userpic").height(w);
 	$("#inputNone").attr("value",employeeid);
 	$("#showInfo").click(function(){
 		changeTab();
@@ -76,9 +76,9 @@ function getInfo(){
 				info=data.employee;
 				var span=$("span");
 				var job = " ";
-				if(info.photourl !== null){
-					$("#userpic").attr("src", '../' + info.photourl)
-				}
+				// if(info.photourl !== null){
+				// 	$("#userpic").attr("src", '../' + info.photourl)
+				// }
 				if(info.power == "0"){
 					job = "管理员"
 				}else if(info.power == "1"){

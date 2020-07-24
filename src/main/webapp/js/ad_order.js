@@ -151,7 +151,7 @@ function delOrder(event){
 	var orderid=$(event.target).data("orderid");
 	$.ajax({
 		type:"POST",
-		url:"../order/deleteOrder",
+		url:"../order/deleteOrder.do",
 		dataType:"JSON",
 		data:{
 			"orderid":orderid

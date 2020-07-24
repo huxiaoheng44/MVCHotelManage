@@ -83,7 +83,7 @@ public class OrderController {
         return GsonUtil.toJson(signal.getResult());
     }
 
-    @RequestMapping(value="/deleteOrder",produces = "text/html;charset=UTF-8")
+    @RequestMapping(value="/deleteOrder.do",produces = "text/html;charset=UTF-8")
     public String deleteOrder(@RequestParam int orderid){
         StateSignal signal = new StateSignal();
         int state = orderService.deleteByPrimaryKey(orderid);
