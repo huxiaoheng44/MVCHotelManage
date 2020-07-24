@@ -60,8 +60,8 @@ function getorderList(){
 				$("#orderList").append("<tr><th>入住人</th><th>身份证号</th><th>房间号</th><th>开始时间</th><th>结束时间</th><th>总金额</th><th>办理人id</th><th>清洁人员id</th><th>状态</th><th>操作</th></tr>")
 				
 				for(i in list){
-					sdate=/\d{4}-\d{1,2}-\d{1,2}/g.exec(list[i].starttime);
-					edate=/\d{4}-\d{1,2}-\d{1,2}/g.exec(list[i].endtime);
+					sdate=list[i].starttime;
+					edate=list[i].endtime;
 					// if(list[i].state=="0"){
 					// 	state="未付款";
 					// 	btnStr="<input  type=\"button\"  class=\"btn btn-info\" data-roomid=\""+list[i].roomid+"\" id=\"showRoom\"  data-toggle=\"modal\" data-target=\"#showRoomT\" value=\"查看房间\">";

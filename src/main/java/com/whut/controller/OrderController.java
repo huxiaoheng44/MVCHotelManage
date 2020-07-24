@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -41,8 +44,18 @@ public class OrderController {
     @RequestMapping(value="/checkIn.do",produces = "text/html;charset=UTF-8")
     public String checkIn(@RequestParam Integer roomid, @RequestParam Integer employeeid1,
                           @RequestParam String idcard, @RequestParam Integer type,
-                          @RequestParam Date starttime,@RequestParam Date endtime,
+                          @RequestParam String starttime,@RequestParam String endtime,
                           @RequestParam String householdname, @RequestParam String  phone){
+        Date Dstarttime=null,Dendtime=null;
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        try {
+            Dstarttime = simpleDateFormat.parse(starttime);
+            Dendtime = simpleDateFormat.parse(endtime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+
         Order order = new Order();
         Room room = new Room();
         Customer customer = new Customer();
@@ -52,9 +65,11 @@ public class OrderController {
         customer.setHouseholdname(householdname);
         customer.setPhone(phone);
         order.setEmployeeid1(employeeid1);
-        order.setStarttime(starttime);
-        order.setEndtime(endtime);
+        order.setRoomid(roomid);
+        order.setStarttime(Dstarttime);
+        order.setEndtime(Dendtime);
         order.setRoom(room);
+        order.setIdcard(idcard);
         order.setCustomer(customer);
         int state = orderService.checkIn(order);
         StateSignal signal = new StateSignal();
@@ -98,6 +113,7 @@ public class OrderController {
 
     @RequestMapping(value="/cleanRoom.do",produces = "text/html;charset=UTF-8")
     public String cleanRoom(@RequestParam int roomid, @RequestParam int employeeid) {
+        System.out.println(roomid+":"+employeeid);
         StateSignal signal = new StateSignal();
         int state = orderService.cleanRoom(roomid,employeeid);
         if(state==1){

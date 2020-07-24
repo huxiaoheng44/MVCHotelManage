@@ -123,13 +123,13 @@ function setRoom(event){
 	$.ajax({
 		type:"POST",
 		url:"../order/cleanRoom.do",
-		dataType:"JSON",
+		// dataType:"JSON",
 		data:{
 			"roomid":roomid,
 			"employeeid":employeeid
 		},
 		success:function(data){
-			if(data.code==0){
+			if(data.code===0){
 				alert("提交成功");
 				getroomList();
 			}

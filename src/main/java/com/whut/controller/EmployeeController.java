@@ -8,10 +8,14 @@ import com.whut.service.EmployeeService;
 import com.whut.until.GsonUtil;
 import com.whut.until.State;
 import com.whut.until.StateSignal;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -21,6 +25,7 @@ public class EmployeeController {
     @Resource
     EmployeeService employeeService;
     private static Gson gson = new Gson();
+
 
     @RequestMapping(value="/getEmployees.do",produces = "text/html;charset=UTF-8")
     public String selectEmployee(@RequestParam int pageNum, @RequestParam int pageSize) {
@@ -95,9 +100,9 @@ public class EmployeeController {
                               @RequestParam String password,@RequestParam String realname,
                               @RequestParam Integer age,@RequestParam Integer power,
                               @RequestParam String idcard,@RequestParam String phone,
-                              @RequestParam String photourl,@RequestParam Salary salary){
+                              @RequestParam String photourl){
         StateSignal signal = new StateSignal();
-        Employee employee = new Employee(employeeid, useraccount, password, realname, age, power, idcard, phone, photourl,salary);
+        Employee employee = new Employee(employeeid, useraccount, password, realname, age, power, idcard, phone, photourl,null);
         int state = employeeService.insertSelective(employee);
         if(state==1){
             signal.put(State.SuccessCode);

@@ -11,6 +11,16 @@ public class Room {
 
     private Roomtype roomtype;
 
+    @Override
+    public String toString() {
+        return "Room{" +
+                "roomid=" + roomid +
+                ", roomname='" + roomname + '\'' +
+                ", state=" + state +
+                ", type=" + type +
+                ", roomtype=" + roomtype +
+                '}';
+    }
 
     public Integer getRoomid() {
         return roomid;

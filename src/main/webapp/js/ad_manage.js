@@ -180,10 +180,10 @@ function setPosition(event,alter){
 		data:{
 			"employeeid":employeeid,
 			"useraccount":null,
-			"password":alter,
+			"password":null,
 			"realname":null,
 			"age":null,
-			"power":null,
+			"power":alter,
 			"idcard":null,
 			"phone":null,
 			"photourl":null,

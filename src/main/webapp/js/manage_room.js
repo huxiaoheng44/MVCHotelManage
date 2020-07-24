@@ -395,7 +395,9 @@ function newOrder(event) {
 				type: $("#inputType").val(),
 				starttime:$("#dateStart").val(),
 				endtime:$("#dateEnd").val(),
-				customer:customer
+				idcard:$("#inputidcard").val(),
+				householdname:$("#inputRealname").val(),
+				phone:$("#inputPhone").val()
 			},
 			// "roomname":$("#inputLocal").val(),
 			// "money":$("#inputPrice").val(),
